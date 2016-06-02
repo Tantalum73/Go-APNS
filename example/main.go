@@ -8,7 +8,12 @@ import (
 
 func main() {
 	m := goapns.NewMessage().Badge(42).Title("Title").Body("body")
-	c, _ := goapns.NewConnection("pathname", "key")
+	c, err := goapns.NewConnection("pathname", "key")
+	if err != nil {
+
+	} else {
+		c.Development()
+	}
 	fmt.Println(m)
 	fmt.Println(c)
 }

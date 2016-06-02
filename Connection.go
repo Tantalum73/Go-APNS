@@ -26,6 +26,7 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 
 	cert, err := CertificateFromP12(pathname, key)
 	if err != nil {
+		fmt.Printf("Error creating Connection: %v", err)
 		return nil, err
 	}
 	c.Certificate = cert
@@ -34,13 +35,11 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 	return c, nil
 }
 
-// func Development() *Connection {
-// 	c := &Connection{}
-// 	c.Host = HostDevelopment
-// 	return c
-// }
-// func Production() *Connection {
-// 	c := &Connection{}
-// 	c.Host = HostProduction
-// 	return c
-// }
+func (c *Connection) Development() *Connection {
+	c.Host = HostDevelopment
+	return c
+}
+func Production(c *Connection) *Connection {
+	c.Host = HostProduction
+	return c
+}
