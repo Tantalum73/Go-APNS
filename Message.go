@@ -14,10 +14,10 @@ func (m *Message) Badge(number int) *Message {
 	return m
 }
 func (m *Message) Title(title string) *Message {
-	m.Alert.title = title
+	m.Alert.Title = title
 	return m
 }
 func (m *Message) Body(body string) *Message {
-	m.Alert.body = body
+	m.Alert.Body = body
 	return m
 }

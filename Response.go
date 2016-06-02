@@ -3,7 +3,6 @@ package goapns
 import (
 	"errors"
 	"net/http"
-	"time"
 )
 
 // Service error responses.
@@ -100,8 +99,8 @@ const Success = http.StatusOK
 type Response struct {
 	APNSID     string
 	StatusCode int
-	Reason     string
-	Timestamp  time.Time
+	Reason     string `json:"reason"`
+	Timestamp  int64  `json:"timestamp"`
 	Message    *Message
 }
 

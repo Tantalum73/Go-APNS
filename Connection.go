@@ -3,7 +3,8 @@ package goapns
 import (
 	"crypto/tls"
 	"net/http"
-	//"golang.org/x/net/http2"
+
+	"golang.org/x/net/http2"
 
 	"fmt"
 )
@@ -29,7 +30,18 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 		return nil, err
 	}
 	c.Certificate = cert
-	//Default to Development Host.
+
+	tlsConfig := &tls.Config{
+		Certificates: []tls.Certificate{cert},
+	}
+
+	//no check if Certificate is present to fail hard if this requirement is not met
+	tlsConfig.BuildNameToCertificate()
+
+	transport := &http2.Transport{TLSClientConfig: tlsConfig}
+
+	c.HTTPClient = http.Client{Transport: transport}
+	//Default Host is Development Host.
 	c.Host = HostDevelopment
 	return c, nil
 }
