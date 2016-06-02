@@ -21,7 +21,6 @@ const (
 )
 
 func NewConnection(pathname string, key string) (*Connection, error) {
-	fmt.Println("Will load cert")
 	c := &Connection{}
 
 	cert, err := CertificateFromP12(pathname, key)

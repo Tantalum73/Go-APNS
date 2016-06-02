@@ -17,18 +17,20 @@ var (
 )
 
 func CertificateFromP12(filePath string, key string) (tls.Certificate, error) {
+	fmt.Printf("Will load cert from file %v \n", filePath)
 	p12Data, err := ioutil.ReadFile(filePath)
-	fmt.Printf("Read Data %v error: %v\n", p12Data, err)
+	// fmt.Printf("Read Data %v error: %v\n", p12Data, err)
 	if err != nil {
 		return tls.Certificate{}, err
 	}
 
 	privateKey, crt, err := pkcs12.Decode(p12Data, key)
 	if err != nil {
-		fmt.Printf("Could not load cert with error %v", err)
+		fmt.Printf("Could not load cert with error %v \n", err)
 		return tls.Certificate{}, err
 	}
-	fmt.Printf("Decoded. Private key %v crt %v, error %v \n", privateKey, crt, err)
+	// fmt.Printf("Decoded. Private key %v crt %v, error %v \n", privateKey, crt, err)
+	fmt.Println("Decoded certificate successfully")
 
 	//ensure that private key is RSA
 	privateRSAKey, ok := privateKey.(*rsa.PrivateKey)
