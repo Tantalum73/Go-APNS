@@ -4,9 +4,10 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"golang.org/x/net/http2"
-
+	"encoding/json"
 	"fmt"
+
+	"golang.org/x/net/http2"
 )
 
 type Connection struct {
@@ -50,7 +51,30 @@ func (c *Connection) Development() *Connection {
 	c.Host = HostDevelopment
 	return c
 }
-func Production(c *Connection) *Connection {
+func (c *Connection) Production() *Connection {
 	c.Host = HostProduction
 	return c
+}
+
+func (c *Connection) Push(message *Message, tokens []string, responseChannel chan string) {
+	fmt.Printf("Will push to tokens %v \n", tokens)
+
+	jsonMessage, err := json.Marshal(&message)
+	if err != nil {
+		fmt.Printf("Error while building JSON: %v \n", err)
+	} else {
+		fmt.Println(jsonMessage)
+	}
+
+	messageFromJSON := &Message{}
+	err2 := json.Unmarshal(jsonMessage, messageFromJSON)
+	if err != nil {
+		fmt.Printf("Error while building Message from JSON: %v \n", err2)
+	} else {
+		fmt.Println(messageFromJSON)
+	}
+	for _, token := range tokens {
+		responseChannel <- token
+	}
+	close(responseChannel)
 }
