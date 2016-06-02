@@ -1,8 +1,8 @@
 package goapns
 
 type Alert struct {
-	title string
-	body  string
+	Title string `json:"title,omitempty"`
+	Body  string `json:"body,omitempty"`
 }
 
 func NewAlert() *Alert {
