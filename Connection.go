@@ -1,4 +1,4 @@
-package goAPNS
+package goapns
 
 import (
 	"crypto/tls"
@@ -24,11 +24,11 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 	fmt.Println("Will load cert")
 	c := &Connection{}
 
-	//	cert, err := CertificateFromP12(pathname, key)
-	// if err != nil {
-	// 	return nil, error
-	// }
-	// c.Certificate = cert
+	cert, err := CertificateFromP12(pathname, key)
+	if err != nil {
+		return nil, err
+	}
+	c.Certificate = cert
 	//Default to Development Host.
 	c.Host = HostDevelopment
 	return c, nil

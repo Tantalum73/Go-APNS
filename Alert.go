@@ -1,4 +1,4 @@
-package goAPNS
+package goapns
 
 type Alert struct {
 	title string

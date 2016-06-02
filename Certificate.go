@@ -1,18 +1,22 @@
-package goAPNS
+package goapns
 
-// "crypto/tls"
-// "golang.org/x/crypto/pkcs12"
-// "io/ioutil"
-// "fmt"
+import (
+	"crypto/tls"
+	"fmt"
+	"io/ioutil"
 
-// func CertificateFromP12(filePath string, key, string) (tls.Certificate, error) {
-//   p12Data, err := ioutil.ReadFile(filePath)
-//   fmt.Printf("Read Data %v error: %v", p12Data, error)
-//   if err != nil {
-//     return tls.Certificate{}, error
-//   }
-//
-//   privateKey, crt, error := pkcs12.Decode(p12Data, key)
-//
-//   return tls.Certificate{}, nil
-// }
+	"golang.org/x/crypto/pkcs12"
+)
+
+func CertificateFromP12(filePath string, key string) (tls.Certificate, error) {
+	p12Data, err := ioutil.ReadFile(filePath)
+	fmt.Printf("Read Data %v error: %v\n", p12Data, err)
+	if err != nil {
+		return tls.Certificate{}, err
+	}
+
+	privateKey, crt, err := pkcs12.Decode(p12Data, key)
+	fmt.Printf("Private key %v crt %v, error %v \n", privateKey, crt, err)
+
+	return tls.Certificate{}, nil
+}

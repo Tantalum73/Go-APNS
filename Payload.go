@@ -1,4 +1,4 @@
-package goAPNS
+package goapns
 
 type Payload struct {
 	Badge int
