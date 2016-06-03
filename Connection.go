@@ -1,6 +1,7 @@
 package goapns
 
 import (
+	"bytes"
 	"crypto/tls"
 	"net/http"
 
@@ -58,6 +59,34 @@ func (c *Connection) Production() *Connection {
 
 func (c *Connection) Push(message *Message, tokens []string, responseChannel chan string) {
 	fmt.Printf("Will push to tokens %v \n", tokens)
+	dataToSend, err := json.Marshal(message)
+	if err != nil {
+		fmt.Printf("Error JSONING the response: %v\naborting\n", err)
+		close(responseChannel)
+		return
+	}
+
+	for _, token := range tokens {
+		url := fmt.Sprintf("%v/3/device/%v", c.Host, token)
+		request, err := http.NewRequest("POST", url, bytes.NewBuffer(dataToSend))
+		if err != nil {
+			fmt.Printf("Error creating request: %v\naborting\n", err)
+			responseChannel <- fmt.Sprintf("Error creating request: %v\naborting\n", err)
+			continue
+		}
+
+		configureHeader(request, message)
+		push := func(responseChannel chan string) {
+			httpResponse, err := c.HTTPClient.Do(request)
+			if err != nil {
+				fmt.Printf("Error during response: %v\naborting\n", err)
+				responseChannel <- fmt.Sprintf("Error during response: %v\naborting\n", err)
+			}
+			defer httpResponse.Body.Close()
+
+		}
+		go push(responseChannel)
+	}
 
 	jsonMessage, err := json.Marshal(&message)
 	if err != nil {
