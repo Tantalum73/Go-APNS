@@ -21,3 +21,16 @@ func (m *Message) Body(body string) *Message {
 	m.Alert.Body = body
 	return m
 }
+func (m *Message) PriorityHigh() *Message {
+	m.Header.Priority = PriorityHigh
+	return m
+}
+func (m *Message) PriorityLow() *Message {
+	m.Header.Priority = PriorityLow
+	return m
+}
+func (m *Message) ContentAvailable() *Message {
+	m.Payload.ContentAvailable = 1
+	m.Header.Priority = PriorityLow
+	return m
+}

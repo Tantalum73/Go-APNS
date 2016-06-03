@@ -17,7 +17,7 @@ func main() {
 	fmt.Println(m)
 	//iPad: 791660155ff167aa766730228fd33f4b0f22d83087448d106ef0a717ef5b2407
 	//iPhone: 428dc1d681e576f69f337cd0061b1cdd8da9b76daab39203fa649c26187722c0
-	tokens := []string{"e72c54b8ca3fa12ac078846430660b5c031fade782a7ffafc4c3743e18a59bb2",
+	tokens := []string{"791660155ff167aa766730228fd33f4b0f22d83087448d106ef0a717ef5b2407",
 		"428dc1d681e576f69f337cd0061b1cdd8da9b76daab39203fa649c26187722c0"}
 	ch := make(chan string, len(tokens))
 	c.Push(m, tokens, ch)
