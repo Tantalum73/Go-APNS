@@ -3,6 +3,7 @@ package goapns
 import (
 	"errors"
 	"net/http"
+	"time"
 )
 
 // Service error responses.
@@ -97,14 +98,20 @@ var errorStatus = map[int]error{
 const Success = http.StatusOK
 
 type Response struct {
-	StatusCode int
-	Reason     string `json:"reason"`
-	Timestamp  int64  `json:"timestamp"`
-	Message    *Message
-	Error      error
-	Token      string
+	StatusCode      int
+	Reason          string `json:"reason"`
+	TimestempNumber int64  `json:"timestamp"`
+	Message         *Message
+	Error           error
+	Token           string
 }
 
 func (r *Response) Sent() bool {
 	return r.StatusCode == Success
+}
+func (r *Response) Timestamp() time.Time {
+	// if r.TimestempNumber != 0 {
+	return time.Unix(r.TimestempNumber/1000, 0)
+	// }
+
 }

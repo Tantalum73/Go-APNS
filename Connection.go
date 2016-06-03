@@ -100,7 +100,6 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 				var response Response
 
 				if httpResponse.StatusCode != http.StatusOK {
-
 					//Something went wrong, creating new Response object from the JSON response
 					errParsingJSON := json.NewDecoder(httpResponse.Body).Decode(&response)
 					fmt.Println("0")
