@@ -12,8 +12,8 @@ func NewPayload() *Payload {
 	return p
 }
 
-func (p *Payload) Map() map[string]interface{} {
-	mapped := make(map[string]interface{}, 4)
+func (p *Payload) MapInto(mapped map[string]interface{}) map[string]interface{} {
+	//mapped := make(map[string]interface{}, 4)
 	if p.Badge != 0 {
 		mapped["badge"] = p.Badge
 	}

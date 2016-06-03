@@ -60,6 +60,9 @@ func (c *Connection) Production() *Connection {
 func (c *Connection) Push(message *Message, tokens []string, responseChannel chan string) {
 	fmt.Printf("Will push to tokens %v \n", tokens)
 	dataToSend, err := json.Marshal(message)
+
+	PrintJSONBytes(dataToSend)
+
 	if err != nil {
 		fmt.Printf("Error JSONING the response: %v\naborting\n", err)
 		close(responseChannel)
@@ -67,7 +70,7 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 	}
 
 	for index, token := range tokens {
-		fmt.Println("host:" + c.Host + "token: " + token)
+		//fmt.Println("host:" + c.Host + "token: " + token)
 		url := fmt.Sprintf("%v/3/device/%v", c.Host, token)
 		request, err := http.NewRequest("POST", url, bytes.NewBuffer(dataToSend))
 		if err != nil {
@@ -131,4 +134,15 @@ func configureHeader(request *http.Request, message *Message) {
 	if message.Header.Topic != "" {
 		request.Header.Set("apns-topic", message.Header.Topic)
 	}
+}
+
+func PrintJSONBytes(b []byte) {
+	var prettyJSON bytes.Buffer
+	error := json.Indent(&prettyJSON, b, "", "\t")
+	if error != nil {
+	}
+	fmt.Println()
+	// log.Println("CSP Violation:", string(prettyJSON.Bytes()))
+	fmt.Println(string(prettyJSON.Bytes()))
+	fmt.Println()
 }

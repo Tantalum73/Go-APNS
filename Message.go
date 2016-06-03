@@ -36,10 +36,15 @@ func (m *Message) ContentAvailable() *Message {
 	m.Header.Priority = PriorityLow
 	return m
 }
-
+func (m *Message) Sound(sound string) *Message {
+	m.Payload.Sound = sound
+	return m
+}
 func (m Message) MarshalJSON() ([]byte, error) {
 	payload := make(map[string]interface{}, 4)
 	payload["alert"] = m.Alert
+	payload = m.Payload.MapInto(payload)
 
-	return json.Marshal(payload)
+	jsonMappedWithAPSKey := map[string]interface{}{"aps": payload}
+	return json.Marshal(jsonMappedWithAPSKey)
 }
