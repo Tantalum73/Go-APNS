@@ -15,6 +15,6 @@ type Header struct {
 }
 
 func NewHeader() *Header {
-	h := &Header{1, time.Time{}, PriorityHigh, ""}
+	h := &Header{"", time.Time{}, PriorityHigh, ""}
 	return h
 }

@@ -66,7 +66,8 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 		return
 	}
 
-	for _, token := range tokens {
+	for index, token := range tokens {
+		fmt.Println("host:" + c.Host + "token: " + token)
 		url := fmt.Sprintf("%v/3/device/%v", c.Host, token)
 		request, err := http.NewRequest("POST", url, bytes.NewBuffer(dataToSend))
 		if err != nil {
@@ -81,31 +82,35 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 			if err != nil {
 				fmt.Printf("Error during response: %v\naborting\n", err)
 				responseChannel <- fmt.Sprintf("Error during response: %v\naborting\n", err)
+			} else {
+				defer httpResponse.Body.Close()
+				responseChannel <- fmt.Sprintf("%v\n", httpResponse)
 			}
-			defer httpResponse.Body.Close()
-
 		}
 		go push(responseChannel)
+		if index == len(tokens) {
+			close(responseChannel)
+		}
 	}
 
-	jsonMessage, err := json.Marshal(&message)
-	if err != nil {
-		fmt.Printf("Error while building JSON: %v \n", err)
-	} else {
-		fmt.Println(jsonMessage)
-	}
-
-	messageFromJSON := &Message{}
-	err2 := json.Unmarshal(jsonMessage, messageFromJSON)
-	if err != nil {
-		fmt.Printf("Error while building Message from JSON: %v \n", err2)
-	} else {
-		fmt.Println(messageFromJSON)
-	}
-	for _, token := range tokens {
-		responseChannel <- token
-	}
-	close(responseChannel)
+	// jsonMessage, err := json.Marshal(&message)
+	// if err != nil {
+	// 	fmt.Printf("Error while building JSON: %v \n", err)
+	// } else {
+	// 	fmt.Println(jsonMessage)
+	// }
+	//
+	// messageFromJSON := &Message{}
+	// err2 := json.Unmarshal(jsonMessage, messageFromJSON)
+	// if err != nil {
+	// 	fmt.Printf("Error while building Message from JSON: %v \n", err2)
+	// } else {
+	// 	fmt.Println(messageFromJSON)
+	// }
+	// for _, token := range tokens {
+	// 	responseChannel <- token
+	// }
+	// close(responseChannel)
 }
 
 func configureHeader(request *http.Request, message *Message) {

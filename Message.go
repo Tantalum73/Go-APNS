@@ -1,5 +1,7 @@
 package goapns
 
+import "encoding/json"
+
 type Message struct {
 	Payload Payload
 	Alert   Alert
@@ -33,4 +35,11 @@ func (m *Message) ContentAvailable() *Message {
 	m.Payload.ContentAvailable = 1
 	m.Header.Priority = PriorityLow
 	return m
+}
+
+func (m Message) MarshalJSON() ([]byte, error) {
+	payload := make(map[string]interface{}, 4)
+	payload["alert"] = m.Alert
+
+	return json.Marshal(payload)
 }

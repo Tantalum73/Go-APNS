@@ -10,7 +10,7 @@ func main() {
 	m := goapns.NewMessage().Badge(42).Title("Title").Body("body")
 	c, err := goapns.NewConnection("../../../../Push Test Push Cert.p12", "PasswortdesZertifikates")
 	if err != nil {
-
+		fmt.Println("Error loading cert :(")
 	} else {
 		c.Development()
 	}
