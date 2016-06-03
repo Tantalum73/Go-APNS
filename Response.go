@@ -97,11 +97,12 @@ var errorStatus = map[int]error{
 const Success = http.StatusOK
 
 type Response struct {
-	APNSID     string
 	StatusCode int
 	Reason     string `json:"reason"`
 	Timestamp  int64  `json:"timestamp"`
 	Message    *Message
+	Error      error
+	Token      string
 }
 
 func (r *Response) Sent() bool {

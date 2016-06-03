@@ -6,6 +6,7 @@ type Message struct {
 	Payload Payload
 	Alert   Alert
 	Header  Header
+	custom  map[string]interface{}
 }
 
 func NewMessage() *Message {
@@ -40,11 +41,22 @@ func (m *Message) Sound(sound string) *Message {
 	m.Payload.Sound = sound
 	return m
 }
+func (m *Message) Custom(key string, object interface{}) *Message {
+	m.custom = make(map[string]interface{})
+	m.custom[key] = object
+	return m
+}
+
 func (m Message) MarshalJSON() ([]byte, error) {
 	payload := make(map[string]interface{}, 4)
 	payload["alert"] = m.Alert
 	payload = m.Payload.MapInto(payload)
 
 	jsonMappedWithAPSKey := map[string]interface{}{"aps": payload}
+
+	for key, object := range m.custom {
+		jsonMappedWithAPSKey[key] = object
+	}
+
 	return json.Marshal(jsonMappedWithAPSKey)
 }
