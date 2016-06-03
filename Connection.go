@@ -78,3 +78,23 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 	}
 	close(responseChannel)
 }
+
+func configureHeader(request *http.Request, message *Message) {
+	request.Header.Set("Content-Type", "application/json; charset=utf-8")
+
+	if message.Header.APNSID != "" {
+		request.Header.Set("apns-id", message.Header.APNSID)
+	}
+	if !message.Header.Expiration.IsZero() {
+		request.Header.Set("apns-expiration", fmt.Sprintf("%v", message.Header.Expiration.Unix()))
+	}
+	//Only set the priority if it is low because high is the default
+	//value that is assumed when no priority is specified.
+	//We want to omit everything we can to save bandwith.
+	if message.Header.Priority == PriorityLow {
+		request.Header.Set("apns-priority", fmt.Sprintf("%v", message.Header.Priority))
+	}
+	if message.Header.Topic != "" {
+		request.Header.Set("apns-topic", message.Header.Topic)
+	}
+}
