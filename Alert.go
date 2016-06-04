@@ -45,7 +45,7 @@ type Alert struct {
 	LaunchImage string `json:"launch-image,omitempty"`
 }
 
-func NewAlert() *Alert {
-	a := &Alert{}
+func NewAlert() Alert {
+	a := Alert{}
 	return a
 }

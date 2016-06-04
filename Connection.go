@@ -82,7 +82,7 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 
 		configureHeader(request, message)
 		push := func(responseChannel chan Response) {
-			// fmt.Println("host:" + c.Host + "token: " + token)
+
 			httpResponse, err := c.HTTPClient.Do(request)
 			if err != nil {
 				fmt.Printf("Error during response: %v\naborting\n", err)
@@ -100,9 +100,7 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 				if httpResponse.StatusCode != http.StatusOK {
 					//Something went wrong, creating new Response object from the JSON response
 					errParsingJSON := json.NewDecoder(httpResponse.Body).Decode(&response)
-					fmt.Println("0")
 					if errParsingJSON != nil {
-						fmt.Println("1")
 						//We could not parse the response into JSON, we need to pass the received error into the responseChannel
 						response.Error = err
 
@@ -111,26 +109,23 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 
 						//Converting the JSON body (string) into an error object
 						knownError, found := errorReason[response.Reason]
-						fmt.Println("2")
+
 						if !found {
 							//We could not find the error in our map so we try to use the HTTP status code to produce some meaningful error object
 							knownError, found = errorStatus[httpResponse.StatusCode]
-							fmt.Println("3")
+
 							if !found {
 								//Could not find the error anywhere :(
 								knownError = ErrUnknown
-								fmt.Println("4")
 							}
 						}
 						response.Error = knownError
-						fmt.Println("5")
 					}
 				}
 
 				response.Message = message
 				response.Token = token
 				response.StatusCode = httpResponse.StatusCode
-				//fmt.Printf("\n\nConstructed Response: %v\n\n", response)
 				responseChannel <- response
 			}
 		}
@@ -148,6 +143,7 @@ func configureHeader(request *http.Request, message *Message) {
 	if message.Header.APNSID != "" {
 		request.Header.Set("apns-id", message.Header.APNSID)
 	}
+
 	if !message.Header.Expiration.IsZero() {
 		request.Header.Set("apns-expiration", fmt.Sprintf("%v", message.Header.Expiration.Unix()))
 	}

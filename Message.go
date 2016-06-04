@@ -14,6 +14,11 @@ type Message struct {
 }
 
 func NewMessage() *Message {
+	m := &Message{}
+	m.Alert = NewAlert()
+	m.Header = NewHeader()
+	m.Payload = NewPayload()
+
 	return &Message{}
 }
 
@@ -107,7 +112,7 @@ func (m *Message) Custom(key string, object interface{}) *Message {
 /******************************
 JSON encoding
 ******************************/
-
+//MarshalJSON builds a []byte that stores the Message object in JSON.
 func (m *Message) MarshalJSON() ([]byte, error) {
 	payload := make(map[string]interface{}, 4)
 	payload["alert"] = m.Alert
@@ -122,6 +127,9 @@ func (m *Message) MarshalJSON() ([]byte, error) {
 	return json.Marshal(jsonMappedWithAPSKey)
 }
 
+//JSONstring returns the entire Message object as JSON exactly as it will
+//be sent to Apples servers.
+//You can use this method to debug your code.
 func (m *Message) JSONstring() string {
 	b, _ := json.Marshal(m)
 	var prettyJSON bytes.Buffer

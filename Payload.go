@@ -7,16 +7,16 @@ type Payload struct {
 	Category         string
 }
 
-func NewPayload() *Payload {
-	p := &Payload{1, "Default", 0, ""}
+func NewPayload() Payload {
+	p := Payload{0, "", 0, ""}
 	return p
 }
 
 func (p *Payload) MapInto(mapped map[string]interface{}) map[string]interface{} {
 	//mapped := make(map[string]interface{}, 4)
-	if p.Badge != 0 {
-		mapped["badge"] = p.Badge
-	}
+	//if p.Badge != 0 {
+	mapped["badge"] = p.Badge
+	//}
 	if p.Sound != "" {
 		mapped["sound"] = p.Sound
 	}

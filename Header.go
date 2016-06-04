@@ -14,7 +14,7 @@ type Header struct {
 	Topic      string
 }
 
-func NewHeader() *Header {
-	h := &Header{"", time.Time{}, PriorityHigh, ""}
+func NewHeader() Header {
+	h := Header{"", time.Time{}, PriorityHigh, ""}
 	return h
 }
