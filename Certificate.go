@@ -12,10 +12,15 @@ import (
 )
 
 var (
-	ErrorCertificateExpired          = errors.New("Your certificate has expired. Please renew in Apples Developer Center")
+	//ErrorCertificateExpired is an error that reports that the certificate is expired.
+	ErrorCertificateExpired = errors.New("Your certificate has expired. Please renew in Apples Developer Center")
+	//ErrorCertificatePrivateKeyNotRSA is an error that reports that the certificate is in the wrong format.
 	ErrorCertificatePrivateKeyNotRSA = errors.New("Apparently the private key is not in RSA format, aborting.")
 )
 
+//CertificateFromP12 loads a p12 certificate file from a given path.
+//If can be secured by a password. You should pass it as an argument to
+//enable Go-APNS to open it
 func CertificateFromP12(filePath string, key string) (tls.Certificate, error) {
 	fmt.Printf("Will load cert from file %v \n", filePath)
 	p12Data, err := ioutil.ReadFile(filePath)
