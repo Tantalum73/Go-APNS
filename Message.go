@@ -19,7 +19,7 @@ func NewMessage() *Message {
 	m.Header = NewHeader()
 	m.Payload = NewPayload()
 
-	return &Message{}
+	return m
 }
 
 /******************************
@@ -27,6 +27,10 @@ Configuring Payload: Badge, Sound, ContentAvailable, Category
 ******************************/
 func (m *Message) Badge(number int) *Message {
 	m.Payload.Badge = number
+	return m
+}
+func (m *Message) NoBadgeChange() *Message {
+	m.Payload.Badge = -1
 	return m
 }
 func (m *Message) Sound(sound string) *Message {
