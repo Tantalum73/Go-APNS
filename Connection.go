@@ -61,8 +61,6 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 	fmt.Printf("Will push to tokens %v \n", tokens)
 	dataToSend, err := json.Marshal(message)
 
-	PrintJSONBytes(dataToSend)
-
 	if err != nil {
 		fmt.Printf("Error JSONING the response: %v\naborting\n", err)
 		close(responseChannel)
@@ -142,24 +140,6 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 		}
 	}
 
-	// jsonMessage, err := json.Marshal(&message)
-	// if err != nil {
-	// 	fmt.Printf("Error while building JSON: %v \n", err)
-	// } else {
-	// 	fmt.Println(jsonMessage)
-	// }
-	//
-	// messageFromJSON := &Message{}
-	// err2 := json.Unmarshal(jsonMessage, messageFromJSON)
-	// if err != nil {
-	// 	fmt.Printf("Error while building Message from JSON: %v \n", err2)
-	// } else {
-	// 	fmt.Println(messageFromJSON)
-	// }
-	// for _, token := range tokens {
-	// 	responseChannel <- token
-	// }
-	// close(responseChannel)
 }
 
 func configureHeader(request *http.Request, message *Message) {
@@ -180,15 +160,4 @@ func configureHeader(request *http.Request, message *Message) {
 	if message.Header.Topic != "" {
 		request.Header.Set("apns-topic", message.Header.Topic)
 	}
-}
-
-func PrintJSONBytes(b []byte) {
-	var prettyJSON bytes.Buffer
-	error := json.Indent(&prettyJSON, b, "", "\t")
-	if error != nil {
-	}
-	fmt.Println()
-	// log.Println("CSP Violation:", string(prettyJSON.Bytes()))
-	fmt.Println(string(prettyJSON.Bytes()))
-	fmt.Println()
 }

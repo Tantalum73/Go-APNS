@@ -1,6 +1,7 @@
 package goapns
 
 import (
+	"bytes"
 	"encoding/json"
 	"time"
 )
@@ -107,7 +108,7 @@ func (m *Message) Custom(key string, object interface{}) *Message {
 JSON encoding
 ******************************/
 
-func (m Message) MarshalJSON() ([]byte, error) {
+func (m *Message) MarshalJSON() ([]byte, error) {
 	payload := make(map[string]interface{}, 4)
 	payload["alert"] = m.Alert
 	payload = m.Payload.MapInto(payload)
@@ -119,4 +120,13 @@ func (m Message) MarshalJSON() ([]byte, error) {
 	}
 
 	return json.Marshal(jsonMappedWithAPSKey)
+}
+
+func (m *Message) JSONstring() string {
+	b, _ := json.Marshal(m)
+	var prettyJSON bytes.Buffer
+	error := json.Indent(&prettyJSON, b, "", "\t")
+	if error != nil {
+	}
+	return string(prettyJSON.Bytes())
 }
