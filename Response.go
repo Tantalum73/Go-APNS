@@ -10,45 +10,29 @@ import (
 var (
 	// These could be checked prior to sending the request to Apple.
 
-	ErrPayloadEmpty    = errors.New("the message payload was empty")
-	ErrPayloadTooLarge = errors.New("the message payload was too large")
-
-	// Device token errors.
-
-	ErrMissingDeviceToken = errors.New("device token was not specified")
-	ErrBadDeviceToken     = errors.New("bad device token")
-	ErrTooManyRequests    = errors.New("too many requests were made consecutively to the same device token")
-
-	// Header errors.
-
-	ErrBadMessageID      = errors.New("the ID header value is bad")
-	ErrBadExpirationDate = errors.New("the Expiration header value is bad")
-	ErrBadPriority       = errors.New("the apns-priority value is bad")
-	ErrBadTopic          = errors.New("the Topic header was invalid")
-
-	// Certificate and topic errors.
-
-	ErrBadCertificate            = errors.New("the certificate was bad")
-	ErrBadCertificateEnvironment = errors.New("certificate was for the wrong environment")
-	ErrForbidden                 = errors.New("there was an error with the certificate")
-
-	ErrMissingTopic           = errors.New("the Topic header of the request was not specified and was required")
-	ErrTopicDisallowed        = errors.New("pushing to this topic is not allowed")
-	ErrUnregistered           = errors.New("device token is inactive for the specified topic")
-	ErrDeviceTokenNotForTopic = errors.New("device token does not match the specified topic")
-
-	// These errors should never happen when using Push.
-
-	ErrDuplicateHeaders = errors.New("one or more headers were repeated")
-	ErrBadPath          = errors.New("the request contained a bad :path")
-	ErrMethodNotAllowed = errors.New("the specified :method was not POST")
-
-	// Fatal server errors.
-
-	ErrIdleTimeout         = errors.New("idle time out")
-	ErrShutdown            = errors.New("the server is shutting down")
-	ErrInternalServerError = errors.New("an internal server error occurred")
-	ErrServiceUnavailable  = errors.New("the service is unavailable")
+	ErrPayloadEmpty              = errors.New("The message payload was empty, expected HTTP/2 status code is 400.")
+	ErrPayloadTooLarge           = errors.New("The message payload was too large. The maximum payload size is 4096 bytes.")
+	ErrBadTopic                  = errors.New("The apns-topic was invalid.")
+	ErrTopicDisallowed           = errors.New("Pushing to this topic is not allowed.")
+	ErrBadMessageID              = errors.New("The APNSID value is bad.")
+	ErrBadExpirationDate         = errors.New("The expiration value is bad.")
+	ErrBadPriority               = errors.New("The apns-priority value is bad.")
+	ErrMissingDeviceToken        = errors.New("The device token is not specified in the request. Verify that the message is sent to a device token.")
+	ErrBadDeviceToken            = errors.New("The specified device token was bad. Verify that the request contains a valid token and that the token matches the environment.")
+	ErrDeviceTokenNotForTopic    = errors.New("The device token does not match the specified topic.")
+	ErrUnregistered              = errors.New("The device token is inactive for the specified topic. Expected HTTP/2 status code is 410.")
+	ErrDuplicateHeaders          = errors.New("One or more headers were repeated.")
+	ErrBadCertificateEnvironment = errors.New("The client certificate was for the wrong environment.")
+	ErrBadCertificate            = errors.New("The certificate was bad.")
+	ErrForbidden                 = errors.New("The specified action is not allowed.")
+	ErrBadPath                   = errors.New("The request contained a bad :path value.")
+	ErrMethodNotAllowed          = errors.New("The specified :method was not POST.")
+	ErrTooManyRequests           = errors.New("Too many requests were made consecutively to the same device token.")
+	ErrIdleTimeout               = errors.New("Idle time out.")
+	ErrShutdown                  = errors.New("The server is shutting down.")
+	ErrInternalServerError       = errors.New("An internal server error occurred.")
+	ErrServiceUnavailable        = errors.New("The service is unavailable.")
+	ErrMissingTopic              = errors.New("The apns-topic header of the request was not specified and was required. The apns-topic header is mandatory when the client is connected using a certificate that supports multiple topics.")
 
 	// HTTP Status errors.
 
