@@ -77,20 +77,28 @@ var errorStatus = map[int]error{
 	http.StatusServiceUnavailable:    ErrorServiceUnavailable,
 }
 
-const Success = http.StatusOK
-
+//Response defines properties that are useful to inform the calling script what happened with the
+//request to Apples Servers. It defines a StatusCode, a Reason (if on is provided by Apple),
+//a Timestamt that can be used to identify since when a device became unavailable
+//(of type int64, if you need a time.Time object, please use Timestamt() method),
+//an Error (nil if everything went fine), the Token of the device the notification was sent to
+//and the Message object itself (can be used to figure out, what went wrong).
 type Response struct {
 	StatusCode      int
 	Reason          string `json:"reason"`
 	TimestempNumber int64  `json:"timestamp"`
-	Message         *Message
-	Erroror         error
+	Error           error
 	Token           string
+	Message         *Message
 }
 
+//Sent return true if the notification was sent successfully (http status code == 200).
+//Additionally, the Error of the Response will be nil.
 func (r *Response) Sent() bool {
-	return r.StatusCode == Success
+	return r.StatusCode == http.StatusOK
 }
+
+//Timestamp converts the int64 type from a Response into a time.Time object.
 func (r *Response) Timestamp() time.Time {
 	// if r.TimestempNumber != 0 {
 	return time.Unix(r.TimestempNumber/1000, 0)
