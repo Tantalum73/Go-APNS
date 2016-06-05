@@ -61,7 +61,7 @@ var errorReason = map[string]error{
 	"TooManyRequests":           ErrorTooManyRequests,
 	"IdleTimeout":               ErrorIdleTimeout,
 	"Shutdown":                  ErrorShutdown,
-	"InternalServerErroror":     ErrorInternalServerError,
+	"InternalServerError":       ErrorInternalServerError,
 	"ServiceUnavailable":        ErrorServiceUnavailable,
 	"MissingTopic":              ErrorMissingTopic,
 }
