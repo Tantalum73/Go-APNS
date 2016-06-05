@@ -84,12 +84,27 @@ var errorStatus = map[int]error{
 //an Error (nil if everything went fine), the Token of the device the notification was sent to
 //and the Message object itself (can be used to figure out, what went wrong).
 type Response struct {
-	StatusCode      int
-	Reason          string `json:"reason"`
-	TimestempNumber int64  `json:"timestamp"`
-	Error           error
-	Token           string
-	Message         *Message
+	//StatusCode defines the status code that Apples servers returned. (See HTTP status codes)
+	StatusCode int
+
+	//Reason is a string representation sent by Apples servers describing why the notification
+	//failed in delivery.
+	Reason string `json:"reason"`
+
+	//TimestempNumber is an int64 that is populated if Apples servers identified a device token being unavailable
+	//for a given amount of time. Apple documentation says:
+	//If the value in the :status header is 410, the value of this key is the last time at which APNs confirmed that the device token was no longer valid for the topic.
+	//Stop pushing notifications until the device registers a token with a later timestamp with your provider.
+	TimestempNumber int64 `json:"timestamp"`
+
+	//Error is nil if everything worked out and not nil if something went wrong by pushing the notification.
+	Error error
+
+	//Token of the device to which the notification should be pushed to.
+	Token string
+
+	//Message object that failed to sent.
+	Message *Message
 }
 
 //Sent return true if the notification was sent successfully (http status code == 200).
