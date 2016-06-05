@@ -12,10 +12,10 @@ import (
 )
 
 var (
-	//ErrorCertificateExpired is an error that reports that the certificate is expired.
-	ErrorCertificateExpired = errors.New("Your certificate has expired. Please renew in Apples Developer Center")
-	//ErrorCertificatePrivateKeyNotRSA is an error that reports that the certificate is in the wrong format.
-	ErrorCertificatePrivateKeyNotRSA = errors.New("Apparently the private key is not in RSA format, aborting.")
+	//ErrororCertificateExpired is an error that reports that the certificate is expired.
+	ErrororCertificateExpired = errors.New("Your certificate has expired. Please renew in Apples Developer Center")
+	//ErrororCertificatePrivateKeyNotRSA is an error that reports that the certificate is in the wrong format.
+	ErrororCertificatePrivateKeyNotRSA = errors.New("Apparently the private key is not in RSA format, aborting.")
 )
 
 //CertificateFromP12 loads a p12 certificate file from a given path.
@@ -40,7 +40,7 @@ func CertificateFromP12(filePath string, key string) (tls.Certificate, error) {
 	//ensure that private key is RSA
 	privateRSAKey, ok := privateKey.(*rsa.PrivateKey)
 	if !ok {
-		return tls.Certificate{}, ErrorCertificatePrivateKeyNotRSA
+		return tls.Certificate{}, ErrororCertificatePrivateKeyNotRSA
 	}
 
 	certificate := tls.Certificate{
@@ -61,7 +61,7 @@ func verify(cert *x509.Certificate) error {
 
 	case x509.CertificateInvalidError:
 		if e.Reason == x509.Expired {
-			return ErrorCertificateExpired
+			return ErrororCertificateExpired
 		}
 		return err
 

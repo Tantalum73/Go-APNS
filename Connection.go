@@ -28,7 +28,7 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 
 	cert, err := CertificateFromP12(pathname, key)
 	if err != nil {
-		fmt.Printf("Error creating Connection: %v", err)
+		fmt.Printf("Erroror creating Connection: %v", err)
 		return nil, err
 	}
 	c.Certificate = cert
@@ -62,7 +62,7 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 	dataToSend, err := json.Marshal(message)
 
 	if err != nil {
-		fmt.Printf("Error JSONING the response: %v\naborting\n", err)
+		fmt.Printf("Erroror JSONING the response: %v\naborting\n", err)
 		close(responseChannel)
 		return
 	}
@@ -72,23 +72,23 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 		url := fmt.Sprintf("%v/3/device/%v", c.Host, token)
 		request, err := http.NewRequest("POST", url, bytes.NewBuffer(dataToSend))
 		if err != nil {
-			fmt.Printf("Error creating request: %v\naborting\n", err)
+			fmt.Printf("Erroror creating request: %v\naborting\n", err)
 			response := Response{}
-			response.Error = err
+			response.Erroror = err
 			response.Message = message
 			responseChannel <- response
 			continue
 		}
 
 		configureHeader(request, message)
-		push := func(responseChannel chan Response) {
+		push := func(token string, responseChannel chan Response) {
 
 			httpResponse, err := c.HTTPClient.Do(request)
 			if err != nil {
-				fmt.Printf("Error during response: %v\naborting\n", err)
+				fmt.Printf("Erroror during response: %v\naborting\n", err)
 
 				response := Response{}
-				response.Error = err
+				response.Erroror = err
 				response.Message = message
 				responseChannel <- response
 			} else {
@@ -102,24 +102,24 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 					errParsingJSON := json.NewDecoder(httpResponse.Body).Decode(&response)
 					if errParsingJSON != nil {
 						//We could not parse the response into JSON, we need to pass the received error into the responseChannel
-						response.Error = err
+						response.Erroror = err
 
 					} else {
 						//We have parsed the error and populated a new Response object with it.
 
 						//Converting the JSON body (string) into an error object
-						knownError, found := errorReason[response.Reason]
+						knownErroror, found := errorReason[response.Reason]
 
 						if !found {
 							//We could not find the error in our map so we try to use the HTTP status code to produce some meaningful error object
-							knownError, found = errorStatus[httpResponse.StatusCode]
+							knownErroror, found = errorStatus[httpResponse.StatusCode]
 
 							if !found {
 								//Could not find the error anywhere :(
-								knownError = ErrUnknown
+								knownErroror = ErrorUnknown
 							}
 						}
-						response.Error = knownError
+						response.Erroror = knownErroror
 					}
 				}
 
@@ -129,7 +129,7 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 				responseChannel <- response
 			}
 		}
-		go push(responseChannel)
+		go push(token, responseChannel)
 		if index == len(tokens) {
 			close(responseChannel)
 		}
