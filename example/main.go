@@ -11,7 +11,7 @@ func main() {
 	m.Custom("key", "val")
 	c, err := goapns.NewConnection("../../../../Push Test Push Cert.p12", "PasswortdesZertifikates")
 	if err != nil {
-		fmt.Println("Erroror loading cert :(")
+		fmt.Println("Error loading cert :(")
 	} else {
 		c.Development()
 	}
@@ -28,7 +28,7 @@ func main() {
 	for response := range ch {
 		//fmt.Printf("\nReceived response: %v\n", response)
 		if !response.Sent() {
-			fmt.Printf("\nThere was an error sending to device %v : %v\n Timestamp: %v, == Zero %v\n\n", response.Token, response.Erroror, response.Timestamp(), response.Timestamp().IsZero())
+			fmt.Printf("\nThere was an error sending to device %v : %v\n Timestamp: %v, == Zero %v\n\n", response.Token, response.Error, response.Timestamp(), response.Timestamp().IsZero())
 		} else {
 			fmt.Printf("\nPush successful for token: %v\n", response.Token)
 		}
