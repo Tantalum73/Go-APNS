@@ -67,6 +67,10 @@ for response := range responseChannel {
 
 _In case, you want to know, what JSON string exactly is pushed to Apple, you can call_ `fmt.Println(message.JSONstring())`_._
 
+Now it is up to you how to handle the error case.
+
+For exampple, if the device you tried to push to has removed the app you get an ```Unregistered``` Error (```response.Error == ErrorUnregistered```). In this case, Apple provides the timestamp on which the device started to become unavailable. You can store this status update and the timestamp for the case that the device re-registeres itself. Then, you can compare the received timestamp and decide which token to keep and if you keep pushing to it.
+
 ## License
 
 ```The MIT License (MIT)
