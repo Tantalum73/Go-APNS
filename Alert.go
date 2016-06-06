@@ -34,10 +34,12 @@ type Alert struct {
 	//LocArgs are variable string values to appear in place of the format specifiers in loc-key.
 	//See Localized Formatted Strings for more information.
 	LocArgs []string `json:"loc-args,omitempty"`
+
 	//ActionLocKey: If a string is specified, the system displays an alert that includes the Close and View buttons.
 	//The string is used as a key to get a localized string in the current localization to use for the right button’s title instead of “View”.
 	//See Localized Formatted Strings for more information.
 	ActionLocKey string `json:"action-loc-key,omitempty"`
+
 	//LaunchImage is the filename of an image file in the app bundle, with or without the filename extension.
 	// The image is used as the launch image when users tap the action button or move the action slider.
 	// If this property is not specified, the system either uses the previous snapshot,uses the image identified by the UILaunchImageFile key in the app’s Info.plist file, or falls back to Default.png.
@@ -45,6 +47,7 @@ type Alert struct {
 	LaunchImage string `json:"launch-image,omitempty"`
 }
 
+//NewAlert creates a new Alert with empty values.
 func NewAlert() Alert {
 	a := Alert{}
 	return a
