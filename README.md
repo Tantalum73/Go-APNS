@@ -65,7 +65,7 @@ for response := range responseChannel {
 }
 ```
 
-In case, you want to know, what JSON string exactly is pushed to Apple, you can call `fmt.Println(message.JSONstring())`.
+_In case, you want to know, what JSON string exactly is pushed to Apple, you can call_ `fmt.Println(message.JSONstring())`_._
 
 # License
 
