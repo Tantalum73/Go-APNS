@@ -2,22 +2,22 @@
 
 Interface for Apple Push Notification System written in Go using their HTTP2 API
 
-# Installation
+## Installation
 
-After setting up Go and the GOPATH variable, you download and install the dependencies by executing the following commands
+After setting up Go and the GOPATH variable, you download and install the dependencies by executing the following commands:
 
-```
+```bash
 go get -u golang.org/x/net/http2
 go get -u golang.org/x/crypto/pkcs12
 ```
 
 And then install Go-APNS using this line
 
-```
+```bash
 go get -u https://github.com/Tantalum73/Go-APNS
 ```
 
-# Usage
+## Usage
 
 **First step**: creating a `Connection`.
 
@@ -42,9 +42,9 @@ message := goapns.NewMessage().Title("Title").Body("A Test notification :)").Sou
 message.Custom("customKey", "customValue")
 ```
 
-- You create a new `Message` by calling `goapns.NewMessage()`.
-- Specifying the fields is done by calling a method on the message object.
-- You can chain it together or call them individually.
+-   You create a new `Message` by calling `goapns.NewMessage()`.
+-   Specifying the fields is done by calling a method on the message object.
+-   You can chain it together or call them individually.
 
 **Third Step** push your notification to a device token. Once you have you connection ready and configured the message according to your gusto, you can send the notification to a device token. Often, you gather the tokens in a database and you know best how to get them off there. So let's assume, they are contained in an array or statically typed, like in my case.
 
@@ -67,7 +67,7 @@ for response := range responseChannel {
 
 _In case, you want to know, what JSON string exactly is pushed to Apple, you can call_ `fmt.Println(message.JSONstring())`_._
 
-# License
+## License
 
 ```The MIT License (MIT)
 
@@ -77,4 +77,4 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. `` ````
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.```
