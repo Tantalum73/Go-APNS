@@ -24,8 +24,8 @@ go get -u https://github.com/Tantalum73/Go-APNS
 ```go
 conn, err := goapns.NewConnection("<File path to your certificate in p12 format>", "<password of your certificate>")
 if err != nil {
-  //Do something responsible with the error
-  return
+  //Do something more responsible in production
+  log.Fatal(err)
 }
 ```
 
@@ -71,7 +71,23 @@ Now it is up to you how to handle the error case.
 
 For example, if the device you tried to push to has removed the app you get an `Unregistered` Error (`response.Error == ErrorUnregistered`). In this case, Apple provides the timestamp on which the device started to become unavailable. You can store this status update and the timestamp for the case that the device re-registeres itself. Then, you can compare the received timestamp and decide which token to keep and if you keep pushing to it.
 
-### Test
+## Values you can set
+
+As mentioned above, you only interact with a `Message`object. There are plenty of methods and I will list them here. You can chain those methods like this
+
+```go
+message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
+```
+
+_This method will change the Alert_
+
+- Title(string)
+- Body(string)
+- Sound(string)
+- Badge(int) (if left empty, the badge will remain unchanged)
+- NoBadgeChange() _if you set the Badge to an int and want to unset it so it stays unchained on the app_
+
+### Tests
 
 _Where are all your tests?_ I am working on it.
 

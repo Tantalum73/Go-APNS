@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/tantalum73/Go-APNS"
 )
@@ -11,7 +12,7 @@ func main() {
 	m.Custom("key", "val")
 	c, err := goapns.NewConnection("../../../../Push Test Push Cert.p12", "PasswortdesZertifikates")
 	if err != nil {
-		fmt.Println("Error loading cert :(")
+		log.Fatal(err)
 	} else {
 		c.Development()
 	}
