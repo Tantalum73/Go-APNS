@@ -90,6 +90,13 @@ message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 - `ContentAvailable()` _sets ContentAvailable to 1 and the priority to low, according to Apples documentation_
 - `ContentUnvailable()` _lets you reset the ContentAvailable flags you may have set earlier by accident_
 
+**This method will change the Header**
+
+- `APNSID(string)`
+- `Expiration(time.Time)`
+- `PriorityHigh()` _Apple defines a value of 10 as high priority, if you do not specify the priority it will default to high_
+- `PriorityLow()` _Apple defines a value of 5 as low priority_
+
 ### Tests
 
 _Where are all your tests?_ I am working on it.
