@@ -106,27 +106,51 @@ func (m *Message) LaunchImage(imageName string) *Message {
 /******************************
 Configuring Payload: Badge, Sound, ContentAvailable, Category
 ******************************/
+
+//Badge is the number to display as the badge of the app icon.
+//If this property is absent, the badge is not changed.
+//To remove the badge, set the value of this property to 0.
 func (m *Message) Badge(number int) *Message {
 	m.Payload.Badge = number
 	return m
 }
+
+//NoBadgeChange is a method that resets the badge.
+//If the Badge value is ommitted, it stays unchanged on the app.
+//Use this method if you set the Badge (by accident) and want to unset it to let it unchanged.
 func (m *Message) NoBadgeChange() *Message {
 	m.Payload.Badge = -1
 	return m
 }
+
+//Sound specified tha name of a sound file in the app bundle or in the Library/Sounds folder of the app’s data container.
+//The sound in this file is played as an alert.
+//If the sound file doesn’t exist or default is specified as the value, the default alert sound is played.
+//The audio must be in one of the audio data formats that are compatible with system sounds.
 func (m *Message) Sound(sound string) *Message {
 	m.Payload.Sound = sound
 	return m
 }
+
+// Category: provide this key with a string value that represents the identifier property of the UIMutableUserNotificationCategory object you created to define custom actions.
+// To learn more about using custom actions, see Registering Your Actionable Notification Types.
 func (m *Message) Category(category string) *Message {
 	m.Payload.Category = category
 	return m
 }
+
+//ContentAvailable: if this key is provided with a value of 1 to indicate that new content is available.
+//Including this key and value means that when your app is launched in the background or resumed,
+//application:didReceiveRemoteNotification:fetchCompletionHandler: is called.
+//This method sets ContentAvailable to 1 and the priority to Low according to Apples documentation.
 func (m *Message) ContentAvailable() *Message {
 	m.Payload.ContentAvailable = 1
 	m.Header.Priority = PriorityLow
 	return m
 }
+
+//ContentUnavailable lets you set the ContentAvailable flag to 0 and the priority to High.
+//Use this method if you set ContentAvailable() by accident.
 func (m *Message) ContentUnavailable() *Message {
 	m.Payload.ContentAvailable = 0
 	m.Header.Priority = PriorityHigh
