@@ -46,6 +46,11 @@ func (m *Message) ContentAvailable() *Message {
 	m.Header.Priority = PriorityLow
 	return m
 }
+func (m *Message) ContentUnavailable() *Message {
+	m.Payload.ContentAvailable = 0
+	m.Header.Priority = PriorityHigh
+	return m
+}
 
 /******************************
 Configuring Header: APNSID, Expiration, Priority, Topic

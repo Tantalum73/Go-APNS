@@ -79,13 +79,16 @@ As mentioned above, you only interact with a `Message`object. There are plenty o
 message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 ```
 
-_This method will change the Alert_
+**This method will change the Alert**
 
-- Title(string)
-- Body(string)
-- Sound(string)
-- Badge(int) (if left empty, the badge will remain unchanged)
-- NoBadgeChange() _if you set the Badge to an int and want to unset it so it stays unchained on the app_
+- `Title(string)`
+- `Body(string)`
+- `Sound(string)`
+- `Badge(int)` _if left empty, the badge will remain unchanged_
+- `NoBadgeChange()` _if you set the Badge to an int and want to unset it so it stays unchained on the app_
+- `Category(string)`
+- `ContentAvailable()` _sets ContentAvailable to 1 and the priority to low, according to Apples documentation_
+- `ContentUnvailable()` _lets you reset the ContentAvailable flags you may have set earlier by accident_
 
 ### Tests
 
