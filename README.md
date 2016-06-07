@@ -24,7 +24,7 @@ go get -u https://github.com/Tantalum73/Go-APNS
 ```go
 conn, err := goapns.NewConnection("<File path to your certificate in p12 format>", "<password of your certificate>")
 if err != nil {
-  //Do something responsible with the error, like printing it.
+  //Do something responsible with the error
   return
 }
 ```
@@ -33,7 +33,7 @@ Optionally, you can specify a development or production environment by calling `
 
 **Second step**: build your notification.
 
-According to Apples documentation, a notification consists of a header and a payload containing meta-information and the actual alert. In Go-APNS, I condensed it into a `Message`.
+According to Apples documentation, a notification consists of a header and a payload, that contains meta-information and the actual alert. In Go-APNS, I condensed it to `Message`.
 
 You only operate with the `Message` struct. It provides a method for every property that you can set. Let's jump right in by looking at an example.
 
@@ -42,9 +42,9 @@ message := goapns.NewMessage().Title("Title").Body("A Test notification :)").Sou
 message.Custom("customKey", "customValue")
 ```
 
--   You create a new `Message` by calling `goapns.NewMessage()`.
--   Specifying the fields is done by calling a method on the message object.
--   You can chain it together or call them individually.
+- You create a new `Message` by calling `goapns.NewMessage()`.
+- Specifying the fields is done by calling a method on the message object.
+- You can chain it together or call them individually.
 
 **Third Step** push your notification to a device token. Once you have you connection ready and configured the message according to your gusto, you can send the notification to a device token. Often, you gather the tokens in a database and you know best how to get them off there. So let's assume, they are contained in an array or statically typed, like in my case.
 
@@ -69,7 +69,11 @@ _In case, you want to know, what JSON string exactly is pushed to Apple, you can
 
 Now it is up to you how to handle the error case.
 
-For exampple, if the device you tried to push to has removed the app you get an ```Unregistered``` Error (```response.Error == ErrorUnregistered```). In this case, Apple provides the timestamp on which the device started to become unavailable. You can store this status update and the timestamp for the case that the device re-registeres itself. Then, you can compare the received timestamp and decide which token to keep and if you keep pushing to it.
+For example, if the device you tried to push to has removed the app you get an `Unregistered` Error (`response.Error == ErrorUnregistered`). In this case, Apple provides the timestamp on which the device started to become unavailable. You can store this status update and the timestamp for the case that the device re-registeres itself. Then, you can compare the received timestamp and decide which token to keep and if you keep pushing to it.
+
+### Test
+
+_Where are all your tests?_ I am working on it.
 
 ## License
 
