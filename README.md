@@ -168,7 +168,11 @@ func main() {
 
 ### Tests
 
-_Where are all your tests?_ I am working on it.
+_Where are all your tests?_ Coming soon, I am working on it.
+
+## Related
+
+I wrote some words about this project in my [blog](https://anerma.de/blog/open-source-project-go-apns). Any feedback is much appreaciated. I am [@Klaarname on Twitter](https://twitter.com/klaarname) and would love to hear from you :)
 
 ## License
 
