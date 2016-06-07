@@ -1,6 +1,6 @@
 # Go-APNS
 
-Interface for Apple Push Notification System written in Go using their HTTP2 API
+Interface for Apple Push Notification System written in Go using their HTTP2 API.
 
 ## Installation
 
@@ -83,16 +83,25 @@ message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 
 - `Title(string)`
 - `Body(string)`
-- `Sound(string)`
+- `TitleLocKey(string)`
+- `TitleLocArgs([] string)`
+- `ActionLocKey(string)`
+- `LocKey(string)`
+- `LocArgs([] string)`
+- `LaunchImage(string)`
+
+**This method will change the Payload**
+
 - `Badge(int)` _if left empty, the badge will remain unchanged_
 - `NoBadgeChange()` _if you set the Badge to an int and want to unset it so it stays unchained on the app_
+- `Sound(string)`
 - `Category(string)`
 - `ContentAvailable()` _sets ContentAvailable to 1 and the priority to low, according to Apples documentation_
 - `ContentUnvailable()` _lets you reset the ContentAvailable flags you may have set earlier by accident_
 
 **This method will change the Header**
 
-- `APNSID(string)`
+- `APNSID(string)` _An UID you can set to identify the notification. If no ID is specified, Apples server will set one for you automatically_
 - `Expiration(time.Time)`
 - `PriorityHigh()` _Apple defines a value of 10 as high priority, if you do not specify the priority it will default to high_
 - `PriorityLow()` _Apple defines a value of 5 as low priority_
