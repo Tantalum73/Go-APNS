@@ -23,6 +23,42 @@ func NewMessage() *Message {
 }
 
 /******************************
+Configuring Alert:  Body, Title, TitleLocKey, TitleLocArgs, ActionLocKey, LocKey, LocArgs, LaunchImage
+******************************/
+func (m *Message) Title(title string) *Message {
+	m.Alert.Title = title
+	return m
+}
+func (m *Message) Body(body string) *Message {
+	m.Alert.Body = body
+	return m
+}
+func (m *Message) TitleLocKey(key string) *Message {
+	m.Alert.TitleLocKey = key
+	return m
+}
+func (m *Message) TitleLocArgs(args []string) *Message {
+	m.Alert.TitleLocArgs = args
+	return m
+}
+func (m *Message) ActionLocKey(key string) *Message {
+	m.Alert.ActionLocKey = key
+	return m
+}
+func (m *Message) LocKey(key string) *Message {
+	m.Alert.LocKey = key
+	return m
+}
+func (m *Message) LocArgs(args []string) *Message {
+	m.Alert.LocArgs = args
+	return m
+}
+func (m *Message) LaunchImage(imageName string) *Message {
+	m.Alert.LaunchImage = imageName
+	return m
+}
+
+/******************************
 Configuring Payload: Badge, Sound, ContentAvailable, Category
 ******************************/
 func (m *Message) Badge(number int) *Message {
@@ -69,42 +105,6 @@ func (m *Message) PriorityHigh() *Message {
 }
 func (m *Message) PriorityLow() *Message {
 	m.Header.Priority = PriorityLow
-	return m
-}
-
-/******************************
-Configuring Alert:  Body, Title, TitleLocKey, TitleLocArgs, ActionLocKey, LocKey, LocArgs, LaunchImage
-******************************/
-func (m *Message) Title(title string) *Message {
-	m.Alert.Title = title
-	return m
-}
-func (m *Message) Body(body string) *Message {
-	m.Alert.Body = body
-	return m
-}
-func (m *Message) TitleLocKey(key string) *Message {
-	m.Alert.TitleLocKey = key
-	return m
-}
-func (m *Message) TitleLocArgs(args []string) *Message {
-	m.Alert.TitleLocArgs = args
-	return m
-}
-func (m *Message) ActionLocKey(key string) *Message {
-	m.Alert.ActionLocKey = key
-	return m
-}
-func (m *Message) LocKey(key string) *Message {
-	m.Alert.LocKey = key
-	return m
-}
-func (m *Message) LocArgs(args []string) *Message {
-	m.Alert.LocArgs = args
-	return m
-}
-func (m *Message) LaunchImage(imageName string) *Message {
-	m.Alert.LaunchImage = imageName
 	return m
 }
 
