@@ -1,6 +1,6 @@
 package goapns
 
-//Payload defines properties that are described as in Apples documentation.
+//Payload defines properties as they are described as in Apples documentation.
 //Badge, Sound, ContentAvailable and Category are those.
 //Think of Payload as a meta-object to your notification as it specify the behaviour
 //but not the actual alert.
