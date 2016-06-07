@@ -110,6 +110,62 @@ message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 - `PriorityHigh()` _Apple defines a value of 10 as high priority, if you do not specify the priority it will default to high_
 - `PriorityLow()` _Apple defines a value of 5 as low priority_
 
+## Example
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+
+    "github.com/tantalum73/Go-APNS"
+)
+
+func main() {
+
+    //creating the Connection by passing the path to a valid certificate and its passphrase
+    conn, err := goapns.NewConnection("/../Push Test Push Cert.p12", "<passphrase>")
+    if err != nil {
+        log.Fatal(err)
+    } else {
+        conn.Development()
+    }
+
+
+    //composing the Message
+    message := goapns.NewMessage().Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
+    message.Custom("key", "val")
+
+
+    //Tokens from a database or, in my case, statically typed
+    tokens := []string{"a26f0000c052865e6631756b1b9d05b4a37ad512fabbe266dd21357b376f0e0e",
+        "428dc1d681e576f69f3373d0065b1cdd8da9b76daab39203fa649c26187722c0"}
+
+    //create a channel that gets the Response object passed in,
+    //it expects as many responses as there are token to push to
+    channel := make(chan goapns.Response, len(tokens))
+
+    //Print the JSON as it is sent to Apples servers
+    fmt.Println(message.JSONstring())
+
+    //Perform the push asynchronosly
+    conn.Push(message, tokens, channel)
+
+    //iterate through the responses
+    for response := range channel {
+
+        if !response.Sent() {
+          //handle the error in a way that fits you
+            fmt.Printf("\nThere was an error sending to device %v : %v\n", response.Token, response.Error)
+        } else {
+            fmt.Printf("\nPush successful for token: %v\n", response.Token)
+        }
+
+    }
+}
+```
+
 ### Tests
 
 _Where are all your tests?_ I am working on it.
