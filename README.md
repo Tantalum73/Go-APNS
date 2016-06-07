@@ -19,7 +19,7 @@ go get -u https://github.com/Tantalum73/Go-APNS
 
 ## Usage
 
-**First step**: creating a `Connection`.
+**First step**: Create a `Connection`.
 
 ```go
 conn, err := goapns.NewConnection("<File path to your certificate in p12 format>", "<password of your certificate>")
@@ -31,11 +31,13 @@ if err != nil {
 
 Optionally, you can specify a development or production environment by calling `conn.Development()`. Development is the default environment. Now you are ready for the next step.
 
-**Second step**: build your notification.
+--------------------------------------------------------------------------------
 
-According to Apples documentation, a notification consists of a header and a payload, that contains meta-information and the actual alert. In Go-APNS, I condensed it to `Message`.
+**Second step**: Build your notification.
 
-You only operate with the `Message` struct. It provides a method for every property that you can set. Let's jump right in by looking at an example.
+According to Apples documentation, a notification consists of a header and a payload, that contains meta-information and the actual alert. In Go-APNS I condensed it to `Message`.
+
+You operate only with the `Message` struct. It provides a method for every property that you can set. Let's jump right in by looking at an example.
 
 ```go
 message := goapns.NewMessage().Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
@@ -43,10 +45,12 @@ message.Custom("customKey", "customValue")
 ```
 
 - You create a new `Message` by calling `goapns.NewMessage()`.
-- Specifying the fields is done by calling a method on the message object.
+- Specify values is done by calling a method on the message object.
 - You can chain it together or call them individually.
 
-**Third Step** push your notification to a device token. Once you have you connection ready and configured the message according to your gusto, you can send the notification to a device token. Often, you gather the tokens in a database and you know best how to get them off there. So let's assume, they are contained in an array or statically typed, like in my case.
+--------------------------------------------------------------------------------
+
+**Third Step** Push your notification to a device token. Once you have you connection ready and configured the message according to your gusto, you can send the notification to a device token. Often, you gather the tokens in a database and you know best how to get them off there. So let's assume, they are contained in an array or, like in my case statically typed.
 
 The magic happens when you call `Push()` on a `Connection`. The provided `message` is sent to Apples servers asynchronously. Therefore, you get the result delivered in a `chan`. When I say 'response', I mean a `Response` object.
 
