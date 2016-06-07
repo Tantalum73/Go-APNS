@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	//Creating the Connection by passing the path to a valid certificate and its passphrase
+	//creating the Connection by passing the path to a valid certificate and its passphrase
 	conn, err := goapns.NewConnection("../../../../Push Test Push Cert.p12", "PasswortdesZertifikates")
 	if err != nil {
 		log.Fatal(err)
