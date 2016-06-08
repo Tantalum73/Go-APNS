@@ -166,6 +166,22 @@ func main() {
 }
 ```
 
+It will send this JSON to Apples servers:
+
+```json
+{
+    "aps": {
+        "alert": {
+            "title": "Title",
+            "body": "A Test notification :)"
+        },
+        "badge": 42,
+        "sound": "Default"
+    },
+    "key": "val"
+}
+```
+
 ### Tests
 
 _Where are all your tests?_ Coming soon, I am working on it.
