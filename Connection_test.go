@@ -19,3 +19,9 @@ func TestConnectionCertificateWrongPassphrase(t *testing.T) {
 	assert.Error(t, err)
 	assert.Nil(t, conn)
 }
+func TestConnectionCertificateCorrectPassphrase(t *testing.T) {
+	pathToCert := "example/certificate-valid-encrypted.p12"
+	conn, err := goapns.NewConnection(pathToCert, "password")
+	assert.Nil(t, err)
+	assert.NotNil(t, conn)
+}
