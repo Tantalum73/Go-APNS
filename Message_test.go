@@ -13,6 +13,9 @@ func TestMessageSetter(t *testing.T) {
 	m.Badge(42)
 	assert.Equal(t, 42, m.Payload.Badge, "Badge not set correctly")
 
+	//Testing default priority
+	assert.Equal(t, 10, m.Header.Priority)
+
 	m.NoBadgeChange()
 	assert.Equal(t, -1, m.Payload.Badge, "Badge not re-set correctly")
 
