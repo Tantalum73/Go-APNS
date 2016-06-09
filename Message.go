@@ -216,6 +216,17 @@ func (m *Message) PriorityLow() *Message {
 	return m
 }
 
+//Topic of the remote notification, which is typically the bundle ID for your app.
+//This method sets the value to its underlaying Header object.
+//The certificate you create in Member Center must include the capability for this topic.
+//If your certificate includes multiple topics, you must specify a value for this header.
+//If you omit this header and your APNs certificate does not specify multiple topics,
+//the APNs server uses the certificate’s Subject as the default topic.
+func (m *Message) Topic(topic string) *Message {
+	m.Header.Topic = topic
+	return m
+}
+
 /******************************
 Custom parameter
 ******************************/
