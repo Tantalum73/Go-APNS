@@ -28,7 +28,7 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 
 	cert, err := CertificateFromP12(pathname, key)
 	if err != nil {
-		fmt.Printf("Error creating Connection: %v", err)
+		//fmt.Printf("Error creating Connection: %v", err)
 		return nil, err
 	}
 	c.Certificate = cert
