@@ -27,6 +27,8 @@ func TestMessageSetter(t *testing.T) {
 	assert.Equal(t, 0, m.Payload.ContentAvailable, "ContentUnavailable not set correctly")
 	assert.Equal(t, 10, m.Header.Priority, "ContentUnavailable not set correctly")
 
+	m.Body("body")
+	assert.Equal(t, "body", m.Alert.Body)
 	// message := goapns.NewMessage().Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 	// message.Custom("key", "val")
 
