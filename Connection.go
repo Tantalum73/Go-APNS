@@ -42,9 +42,11 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 
 	transport := &http2.Transport{TLSClientConfig: tlsConfig}
 
+	transport.AllowHTTP = true
 	c.HTTPClient = http.Client{Transport: transport}
 	//Default Host is Development Host.
 	c.Host = HostDevelopment
+
 	return c, nil
 }
 
@@ -58,7 +60,7 @@ func (c *Connection) Production() *Connection {
 }
 
 func (c *Connection) Push(message *Message, tokens []string, responseChannel chan Response) {
-	fmt.Printf("Will push to tokens %v , URL: %v\n", tokens, c.Host)
+	// fmt.Printf("Will push to tokens %v , URL: %v\n", tokens, c.Host)
 	dataToSend, err := json.Marshal(message)
 
 	if err != nil {
@@ -111,6 +113,7 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 				if httpResponse.StatusCode != http.StatusOK {
 					//Something went wrong, creating new Response object from the JSON response
 					errParsingJSON := json.NewDecoder(httpResponse.Body).Decode(&response)
+
 					if errParsingJSON != nil {
 						//We could not parse the response into JSON, we need to pass the received error into the responseChannel
 						response.Error = err
@@ -140,7 +143,7 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 				responseChannel <- response
 			}
 		}
-		shouldCloseChannelWhenDone := index == len(tokens)-1
+		shouldCloseChannelWhenDone := index == (len(tokens) - 1)
 		go push(token, responseChannel, shouldCloseChannelWhenDone)
 
 	}
