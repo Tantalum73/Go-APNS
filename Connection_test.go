@@ -104,7 +104,7 @@ func TestConnectionHeader(t *testing.T) {
 	conn.Push(message, token, channel)
 
 }
-func TestConnectionTokenInvalid(t *testing.T) {
+func TestConnectionTokenExpired(t *testing.T) {
 	conn := mockConnection(t)
 
 	token := []string{"12345678912"}
