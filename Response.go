@@ -95,7 +95,7 @@ type Response struct {
 	//for a given amount of time. Apple documentation says:
 	//If the value in the :status header is 410, the value of this key is the last time at which APNs confirmed that the device token was no longer valid for the topic.
 	//Stop pushing notifications until the device registers a token with a later timestamp with your provider.
-	TimestempNumber int64 `json:"timestamp"`
+	TimestempNumber int64 `json:"timestamp,omitempty"`
 
 	//Error is nil if everything worked out and not nil if something went wrong by pushing the notification.
 	Error error
@@ -120,3 +120,12 @@ func (r *Response) Timestamp() time.Time {
 	// }
 
 }
+
+// func (t *Time) UnmarshalJSON(b []byte) error {
+// 	ts, err := strconv.Atoi(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	t.Time = time.Unix(int64(ts/1000), 0)
+// 	return nil
+// }
