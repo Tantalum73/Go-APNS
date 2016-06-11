@@ -58,11 +58,11 @@ func (c *Connection) Production() *Connection {
 }
 
 func (c *Connection) Push(message *Message, tokens []string, responseChannel chan Response) {
-	fmt.Printf("Will push to tokens %v \n", tokens)
+	fmt.Printf("Will push to tokens %v , URL: %v\n", tokens, c.Host)
 	dataToSend, err := json.Marshal(message)
 
 	if err != nil {
-		fmt.Printf("Error JSONING the response: %v\naborting\n", err)
+		fmt.Printf("Error JSONING the request: %v\naborting\n", err)
 		close(responseChannel)
 		return
 	}
@@ -81,18 +81,29 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 		}
 
 		configureHeader(request, message)
-		push := func(token string, responseChannel chan Response) {
+		push := func(token string, responseChannel chan Response, shouldCloseChannelWhenDone bool) {
+			if shouldCloseChannelWhenDone {
+				defer close(responseChannel)
+
+				fmt.Printf("Closing channel\n")
+			} else {
+				fmt.Printf("was pushing to token %v with index %v\n", token, index)
+			}
 
 			httpResponse, err := c.HTTPClient.Do(request)
+			if httpResponse != nil {
+				defer httpResponse.Body.Close()
+			}
+
 			if err != nil {
-				fmt.Printf("Error during response: %v\naborting\n", err)
+				fmt.Printf("Error during response: %v\nAborting.\n", err)
 
 				response := Response{}
 				response.Error = err
 				response.Message = message
+				response.Token = token
 				responseChannel <- response
 			} else {
-				defer httpResponse.Body.Close()
 
 				//Response object that will be populated and passed into the responseChannel
 				var response Response
@@ -129,10 +140,9 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 				responseChannel <- response
 			}
 		}
-		go push(token, responseChannel)
-		if index == len(tokens) {
-			close(responseChannel)
-		}
+		shouldCloseChannelWhenDone := index == len(tokens)-1
+		go push(token, responseChannel, shouldCloseChannelWhenDone)
+
 	}
 
 }
