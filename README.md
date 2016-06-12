@@ -195,10 +195,6 @@ If you want to look something up, I also recommend Appled documentation of the A
 
 - [The Remote Notification Payload](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html#//apple_ref/doc/uid/TP40008194-CH107-SW1)
 
-  ### Tests
-
-_Where are all your tests?_ Coming soon, I am working on it.
-
 ## Related
 
 I wrote some words about this project in my [blog](https://anerma.de/blog/open-source-project-go-apns). Any feedback is much appreciated. I am [@Klaarname on Twitter](https://twitter.com/klaarname) and would love to hear from you :)
