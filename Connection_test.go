@@ -128,7 +128,7 @@ func TestConnectionTokenExpired(t *testing.T) {
 		//Timestamp set correctly
 		assert.Equal(t, response.TimestempNumber, expired)
 		//Reason set correctly
-		assert.IsType(t, goapns.ErrorUnregistered, response.Error)
+		assert.Equal(t, goapns.ErrorUnregistered, response.Error)
 		assert.False(t, response.Sent())
 	}
 }
@@ -152,7 +152,7 @@ func TestConnectionBadPriority(t *testing.T) {
 	conn.Push(message, token, channel)
 	for response := range channel {
 		assert.False(t, response.Sent())
-		//Reason set correctly
-		assert.IsType(t, goapns.ErrorBadPriority, response.Error)
+		assert.Equal(t, goapns.ErrorBadPriority, response.Error)
+
 	}
 }
