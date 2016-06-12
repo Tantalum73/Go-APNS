@@ -29,6 +29,8 @@ if err != nil {
 }
 ```
 
+Keep the `Connection` around as long as you can. Or as Apple puts it 'You should leave a connection open unless you know it will be idle for an extended period of time--for example, if you only send notifications to your users once a day it is ok to use a new connection each day.'
+
 Optionally, you can specify a development or production environment by calling `conn.Development()`. Development is the default environment. Now you are ready for the next step.
 
 --------------------------------------------------------------------------------
