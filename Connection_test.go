@@ -112,7 +112,6 @@ func TestConnectionTokenExpired(t *testing.T) {
 	expired := time.Now().UTC().Unix()
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.Header().Set("apns-id", message.Header.APNSID)
 		w.WriteHeader(http.StatusGone)
@@ -124,11 +123,36 @@ func TestConnectionTokenExpired(t *testing.T) {
 	channel := make(chan goapns.Response, 1)
 
 	conn.Host = server.URL
-	conn.Push(mockMessage(), token, channel)
+	conn.Push(message, token, channel)
 	for response := range channel {
 		//Timestamp set correctly
 		assert.Equal(t, response.TimestempNumber, expired)
 		//Reason set correctly
 		assert.IsType(t, goapns.ErrorUnregistered, response.Error)
+		assert.False(t, response.Sent())
+	}
+}
+
+func TestConnectionBadPriority(t *testing.T) {
+	conn := mockConnection(t)
+
+	token := []string{"12345678912"}
+	message := mockMessage().APNSID("102")
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.Write([]byte(`{"reason": "BadPriority"}`))
+	}))
+	defer server.Close()
+
+	channel := make(chan goapns.Response, 1)
+
+	conn.Host = server.URL
+	conn.Push(message, token, channel)
+	for response := range channel {
+		assert.False(t, response.Sent())
+		//Reason set correctly
+		assert.IsType(t, goapns.ErrorBadPriority, response.Error)
 	}
 }
