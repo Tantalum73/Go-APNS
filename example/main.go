@@ -41,7 +41,15 @@ func main() {
 	for response := range channel {
 		//fmt.Printf("\nReceived response: %v\n", response)
 		if !response.Sent() {
-			fmt.Printf("\nThere was an error sending to device %v : %v\n Timestamp: %v, == Zero %v\n\n", response.Token, response.Error, response.Timestamp(), response.Timestamp().IsZero())
+			fmt.Printf("\nThere was an error sending to device %v\nError: %v\n", response.Token, response.Error)
+
+			if response.Error == goapns.ErrorUnregistered {
+				//The device was removed from APNS so the token can't be used anymore.
+				//Update you database accordingly by using the Timestamp object that
+				//gives a hint since when the token coult not be reached anymore.
+				fmt.Printf("\nToken is not registered as valid token anymore since %v\n", response.Timestamp())
+			}
+
 		} else {
 			fmt.Printf("\nPush successful for token: %v\n", response.Token)
 		}
