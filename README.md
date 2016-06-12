@@ -207,7 +207,13 @@ If you want to look something up, I also recommend Appled documentation of the A
 
 I wrote some words about this project in my [blog](https://anerma.de/blog/open-source-project-go-apns). Any feedback is much appreciated. I am [@Klaarname on Twitter](https://twitter.com/klaarname) and would love to hear from you :)
 
-## License
+If you are not happy with my solution, maybe one of those fits you better:
+
+- [buford](https://github.com/RobotsAndPencils/buford)
+- [apns2](https://github.com/sideshow/apns2)
+- [go-apns2](https://github.com/sger/go-apns2)
+
+  ## License
 
 Go-APNS is published under MIT License.
 
