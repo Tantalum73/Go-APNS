@@ -161,6 +161,14 @@ func main() {
         if !response.Sent() {
           //handle the error in a way that fits you
             fmt.Printf("\nThere was an error sending to device %v : %v\n", response.Token, response.Error)
+
+                  if response.Error == goapns.ErrorUnregistered {
+                      //The device was removed from APNS so the token can't be used anymore.
+                      //Update you database accordingly by using the Timestamp object that
+                      //gives a hint since when the token coult not be reached anymore.
+                      fmt.Printf("\nToken is not registered as valid token anymore since %v\n", response.Timestamp())
+                  }
+
         } else {
             fmt.Printf("\nPush successful for token: %v\n", response.Token)
         }
