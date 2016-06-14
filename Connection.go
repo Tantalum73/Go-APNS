@@ -76,6 +76,12 @@ func (c *Connection) Production() *Connection {
 	return c
 }
 
+//Push sends a request to Apples servers.
+//It takes a Message and and tokens in an array to which the message should be pushed to.
+//The result of a request is pushed into the responseChannel as an Response object.
+//As the network operation is performed asynchronously (using go keyword)
+//the method will return immediately. Use responseChannel to watch the results.
+//You will get one Response object for every request that is sent (one request per token).
 func (c *Connection) Push(message *Message, tokens []string, responseChannel chan Response) {
 	// fmt.Printf("Will push to tokens %v , URL: %v\n", tokens, c.Host)
 	dataToSend, err := json.Marshal(message)
@@ -103,10 +109,6 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 		push := func(token string, responseChannel chan Response, shouldCloseChannelWhenDone bool) {
 			if shouldCloseChannelWhenDone {
 				defer close(responseChannel)
-
-				fmt.Printf("Closing channel\n")
-			} else {
-				fmt.Printf("was pushing to token %v with index %v\n", token, index)
 			}
 
 			httpResponse, err := c.HTTPClient.Do(request)
