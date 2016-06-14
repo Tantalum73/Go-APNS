@@ -11,10 +11,16 @@ import (
 	"golang.org/x/net/http2"
 )
 
+//Connection stores properties that are necessary to perform a request to Apples servers.
 type Connection struct {
-	HTTPClient  http.Client
+	//HTTPClient the HTTP client that is used. It is configured with a tls.Config that uses
+	//the specified certificate. It is constructed for you in NewConnection(pathname, key)
+	HTTPClient http.Client
+	//Certificate is the certificate that you specified during construction of the Connection
+	//by using NewConnection(pathname string, key string)
 	Certificate tls.Certificate
-	Host        string
+	//Host is the host to which the request is sent to.
+	Host string
 }
 
 // Apple HTTP/2 Development & Production urls
@@ -23,6 +29,12 @@ const (
 	HostProduction  = "https://api.push.apple.com"
 )
 
+//NewConnection creates a new Connection object. A Certificate is required to
+//send requests to Apples servers. You can specify the path to a .p12 certificate
+//and its passphrase.
+//The default host is the development host. connection.Production() if you want to
+//use the production environment.
+//It will return a *Connection or an error. One of this is always nil.
 func NewConnection(pathname string, key string) (*Connection, error) {
 	c := &Connection{}
 
@@ -42,7 +54,6 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 
 	transport := &http2.Transport{TLSClientConfig: tlsConfig}
 
-	transport.AllowHTTP = true
 	c.HTTPClient = http.Client{Transport: transport}
 	//Default Host is Development Host.
 	c.Host = HostDevelopment
@@ -50,10 +61,16 @@ func NewConnection(pathname string, key string) (*Connection, error) {
 	return c, nil
 }
 
+//Development sets the host to Apples development environment.
+//Use this while your app is in development and not published.
+//This host is set by default.
 func (c *Connection) Development() *Connection {
 	c.Host = HostDevelopment
 	return c
 }
+
+//Production sets the host to Apples development environment.
+//Use this while your app is in production.
 func (c *Connection) Production() *Connection {
 	c.Host = HostProduction
 	return c
