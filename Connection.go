@@ -169,6 +169,9 @@ func (c *Connection) Push(message *Message, tokens []string, responseChannel cha
 
 }
 
+//configureHader takes a Message and a htto.Request. It sets the header properties
+//of it as Apples documentation says. Therefore, it writes values from the
+//message.Header object into a http header.
 func configureHeader(request *http.Request, message *Message) {
 	request.Header.Set("Content-Type", "application/json; charset=utf-8")
 
