@@ -152,7 +152,7 @@ func main() {
     //Print the JSON as it is sent to Apples servers
     fmt.Println(message.JSONstring())
 
-    //Perform the push asynchronosly
+    //Perform the push asynchronously
     conn.Push(message, tokens, channel)
 
     //iterate through the responses
