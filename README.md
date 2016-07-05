@@ -29,7 +29,7 @@ if err != nil {
 }
 ```
 
-Keep the `Connection` around as long as you can. Or as Apple puts it 'You should leave a connection open unless you know it will be idle for an extended period of time--for example, if you only send notifications to your users once a day it is ok to use a new connection each day.'
+Keep the `Connection` around as long as you can. Or as Apple puts it: 'You should leave a connection open unless you know it will be idle for an extended period of time--for example, if you only send notifications to your users once a day it is ok to use a new connection each day.'
 
 Optionally, you can specify a development or production environment by calling `conn.Development()`. Development is the default environment. Now you are ready for the next step.
 
@@ -37,24 +37,24 @@ Optionally, you can specify a development or production environment by calling `
 
 **Second step**: Build your notification.
 
-According to Apples documentation, a notification consists of a header and a payload, that contains meta-information and the actual alert. In Go-APNS I condensed it to `Message`.
+According to Apples documentation, a notification consists of a header and a payload. The latter contains meta-information and the actual alert. In Go-APNS I condensed every field to a `Message`.
 
-You operate only with the `Message` struct. It provides a method for every property that you can set. Let's jump right in by looking at an example.
+You only operate with the `Message` struct. It provides a method for every property that you can set.
 
 ```go
 message := goapns.NewMessage().Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 message.Custom("customKey", "customValue")
 ```
 
-- You create a new `Message` by calling `goapns.NewMessage()`.
-- Specify values is done by calling a method on the message object.
-- You can chain it together or call them individually.
+- Create a new `Message` by calling `goapns.NewMessage()`.
+- Specify values by calling a method on the message object.
+- Chain it together or call them individually.
 
 --------------------------------------------------------------------------------
 
-**Third Step** Push your notification to a device token. Once you have you connection ready and configured the message according to your gusto, you can send the notification to a device token. Often, you gather the tokens in a database and you know best how to get them off there. So let's assume, they are contained in an array or, like in my case statically typed.
+**Third Step** Push your notification to a device token. Once you have you connection ready and configured the message as you like, you can send the notification to a device token. Maybe you gather the tokens in a database. You know best how to get them off there so let's just assume they are contained in an array or, like in my case, statically typed.
 
-The magic happens when you call `Push()` on a `Connection`. The provided `message` is sent to Apples servers asynchronously. Therefore, you get the result delivered in a `chan`. When I say 'response', I mean a `Response` object.
+The magic happens when you call `Push()` on a `Connection`. The provided `message` is sent to Apples servers asynchronously. Therefore, you get the result delivered in a `chan`. When I say 'response' I mean a `Response` object.
 
 ```go
 tokens := []string{"<token1>",
@@ -87,31 +87,31 @@ message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 
 **This method will change the Alert**
 
--  `Title(string)`
--  `Body(string)`
--  `TitleLocKey(string)`
--  `TitleLocArgs([] string)`
--  `ActionLocKey(string)`
--  `LocKey(string)`
--  `LocArgs([] string)`
--  `LaunchImage(string)`
+- `Title(string)`
+- `Body(string)`
+- `TitleLocKey(string)`
+- `TitleLocArgs([] string)`
+- `ActionLocKey(string)`
+- `LocKey(string)`
+- `LocArgs([] string)`
+- `LaunchImage(string)`
 
 **This method will change the Payload**
 
--  `Badge(int)` _if left empty, the badge will remain unchanged_
--  `NoBadgeChange()` _if you set the Badge to an int and want to unset it so it stays unchained on the app_
--  `Sound(string)`
--  `Category(string)`
--  `ContentAvailable()` _sets ContentAvailable to 1 and the priority to low, according to Apples documentation_
--  `ContentUnvailable()` _lets you reset the ContentAvailable flags you may have set earlier by accident_
+- `Badge(int)` _if left empty, the badge will remain unchanged_
+- `NoBadgeChange()` _if you set the Badge to an int and want to unset it so it stays unchained on the app_
+- `Sound(string)`
+- `Category(string)`
+- `ContentAvailable()` _sets ContentAvailable to 1 and the priority to low, according to Apples documentation_
+- `ContentUnvailable()` _lets you reset the ContentAvailable flags you may have set earlier by accident_
 
 **This method will change the Header**
 
--  `APNSID(string)` _An UID you can set to identify the notification. If no ID is specified, Apples server will set one for you automatically_
--  `Expiration(time.Time)`
--  `PriorityHigh()` _Apple defines a value of 10 as high priority, if you do not specify the priority it will default to high_
--  `PriorityLow()` _Apple defines a value of 5 as low priority_
--  `Topic(string)` _typically the bundle ID for your app_
+- `APNSID(string)` _An UID you can set to identify the notification. If no ID is specified, Apples server will set one for you automatically_
+- `Expiration(time.Time)`
+- `PriorityHigh()` _Apple defines a value of 10 as high priority, if you do not specify the priority it will default to high_
+- `PriorityLow()` _Apple defines a value of 5 as low priority_
+- `Topic(string)` _typically the bundle ID for your app_
 
 ## Example
 
