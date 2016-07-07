@@ -33,4 +33,8 @@ func TestMessageSetter(t *testing.T) {
 	m.MutableContent()
 	assert.Equal(t, 1, m.Payload.MutableContent)
 
+	collapseID := "com.example.euroApp.scroreChanged"
+	m.CollapseID(collapseID)
+	assert.Equal(t, collapseID, m.Header.CollapseID)
+
 }

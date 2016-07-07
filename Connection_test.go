@@ -87,14 +87,17 @@ func TestConnectionHeaderDefaults(t *testing.T) {
 func TestConnectionHeader(t *testing.T) {
 	conn := mockConnection(t)
 
+	collapseID := "com.example.euroApp.scroreChanged"
+
 	token := []string{"1234567890"}
-	message := mockMessage().APNSID("102").PriorityHigh().Topic("topic").Expiration(time.Now())
+	message := mockMessage().APNSID("102").PriorityHigh().Topic("topic").Expiration(time.Now()).CollapseID(collapseID)
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, message.Header.APNSID, r.Header.Get("apns-id"))
 		assert.Equal(t, "10", message.Header.Priority, r.Header.Get("apns-priority"))
 		assert.Equal(t, message.Header.Topic, r.Header.Get("apns-topic"))
 		assert.Equal(t, fmt.Sprintf("%v", message.Header.Expiration.Unix()), r.Header.Get("apns-expiration"))
+		assert.Equal(t, collapseID, "apns-collapse-id")
 	}))
 	defer server.Close()
 
