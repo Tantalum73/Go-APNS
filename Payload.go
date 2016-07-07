@@ -24,11 +24,15 @@ type Payload struct {
 	// Category: provide this key with a string value that represents the identifier property of the UIMutableUserNotificationCategory object you created to define custom actions.
 	// To learn more about using custom actions, see Registering Your Actionable Notification Types.
 	Category string
+
+	// MutabelContent specifies if the app is allowed to mutate the notification before it gets presented.
+	//If so, your notification extension will be woken up to do the job.
+	MutableContent int
 }
 
 //NewPayload provides a initializer of Payload with empty values and no badge.
 func NewPayload() Payload {
-	p := Payload{-1, "", 0, ""}
+	p := Payload{-1, "", 0, "", 0}
 	return p
 }
 
@@ -46,6 +50,9 @@ func (p *Payload) MapInto(mapped map[string]interface{}) map[string]interface{} 
 	}
 	if p.ContentAvailable != 0 {
 		mapped["content-available"] = 1
+	}
+	if p.MutableContent != 0 {
+		mapped["mutable-content"] = 1
 	}
 	if p.Category != "" {
 		mapped["category"] = p.Category
