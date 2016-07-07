@@ -104,7 +104,7 @@ func (m *Message) LaunchImage(imageName string) *Message {
 }
 
 /******************************
-Configuring Payload: Badge, Sound, ContentAvailable, Category
+Configuring Payload: Badge, Sound, ContentAvailable, Category, MutableContent
 ******************************/
 
 //Badge is the number to display as the badge of the app icon.
@@ -135,7 +135,7 @@ func (m *Message) Sound(sound string) *Message {
 	return m
 }
 
-// Category: provide this key with a string value that represents the identifier property of the UIMutableUserNotificationCategory object you created to define custom actions.
+// Category : provide this key with a string value that represents the identifier property of the UIMutableUserNotificationCategory object you created to define custom actions.
 //This method sets the value to its underlaying Payload object.
 // To learn more about using custom actions, see Registering Your Actionable Notification Types.
 func (m *Message) Category(category string) *Message {
@@ -143,7 +143,7 @@ func (m *Message) Category(category string) *Message {
 	return m
 }
 
-//ContentAvailable: if this key is provided with a value of 1 to indicate that new content is available.
+//ContentAvailable : if this key is provided with a value of 1 to indicate that new content is available.
 //This method sets the value to its underlaying Payload object.
 //Including this key and value means that when your app is launched in the background or resumed,
 //application:didReceiveRemoteNotification:fetchCompletionHandler: is called.
@@ -163,7 +163,7 @@ func (m *Message) ContentUnavailable() *Message {
 	return m
 }
 
-// MutabelContent specifies if the app is allowed to mutate the notification before it gets presented.
+// MutableContent specifies if the app is allowed to mutate the notification before it gets presented.
 //If so, your notification extension will be woken up to do the job.
 func (m *Message) MutableContent() *Message {
 	m.Payload.MutableContent = 1
@@ -171,7 +171,7 @@ func (m *Message) MutableContent() *Message {
 }
 
 /******************************
-Configuring Header: APNSID, Expiration, Priority, Topic
+Configuring Header: APNSID, Expiration, Priority, Topic, CollapseID
 ******************************/
 
 //APNSID is a canonical UUID that identifies the notification.
@@ -231,6 +231,14 @@ func (m *Message) PriorityLow() *Message {
 //the APNs server uses the certificate’s Subject as the default topic.
 func (m *Message) Topic(topic string) *Message {
 	m.Header.Topic = topic
+	return m
+}
+
+//CollapseID specifies a string that is used to replace a former sent notification by the latest one.
+//Notifications with the same CollapseID string will be collapsed so that only the newest notification is displayed.
+//Usefull if you want to present a  scrore of a fotball math or something that gets frequently updated.
+func (m *Message) CollapseID(collapseID string) *Message {
+	m.Header.CollapseID = collapseID
 	return m
 }
 

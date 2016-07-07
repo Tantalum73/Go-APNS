@@ -191,4 +191,7 @@ func configureHeader(request *http.Request, message *Message) {
 	if message.Header.Topic != "" {
 		request.Header.Set("apns-topic", message.Header.Topic)
 	}
+	if message.Header.CollapseID != "" {
+		request.Header.Set("apns-collapse-id", message.Header.CollapseID)
+	}
 }

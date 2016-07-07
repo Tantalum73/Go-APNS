@@ -51,10 +51,15 @@ type Header struct {
 	//If you omit this header and your APNs certificate does not specify multiple topics,
 	//the APNs server uses the certificate’s Subject as the default topic.
 	Topic string
+
+	//CollapseID specifies a string that is used to replace a former sent notification by the latest one.
+	//Notifications with the same CollapseID string will be collapsed so that only the newest notification is displayed.
+	//Usefull if you want to present a  scrore of a fotball math or something that gets frequently updated.
+	CollapseID string
 }
 
 //NewHeader creates a new Header with high priority.
 func NewHeader() Header {
-	h := Header{"", time.Time{}, PriorityHigh, ""}
+	h := Header{"", time.Time{}, PriorityHigh, "", ""}
 	return h
 }
