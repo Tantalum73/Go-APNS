@@ -29,7 +29,8 @@ func TestMessageSetter(t *testing.T) {
 
 	m.Body("body")
 	assert.Equal(t, "body", m.Alert.Body)
-	// message := goapns.NewMessage().Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
-	// message.Custom("key", "val")
+
+	m.MutableContent()
+	assert.Equal(t, 1, m.Payload.MutableContent)
 
 }

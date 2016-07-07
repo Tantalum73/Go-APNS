@@ -163,6 +163,13 @@ func (m *Message) ContentUnavailable() *Message {
 	return m
 }
 
+// MutabelContent specifies if the app is allowed to mutate the notification before it gets presented.
+//If so, your notification extension will be woken up to do the job.
+func (m *Message) MutableContent() *Message {
+	m.Payload.MutableContent = 1
+	return m
+}
+
 /******************************
 Configuring Header: APNSID, Expiration, Priority, Topic
 ******************************/
