@@ -37,4 +37,33 @@ func TestMessageSetter(t *testing.T) {
 	m.CollapseID(collapseID)
 	assert.Equal(t, collapseID, m.Header.CollapseID)
 
+	m.Subtitle("subtitle")
+	assert.Equal(t, "subtitle", m.Alert.Subtitle)
+}
+
+func TestMessageJSON(t *testing.T) {
+	//Filling every entry of the Alert and Payload
+	//Then comparing the created JSON that will be sent to Apples servers
+	//with a expected JSON.
+	array := []string{"1", "2"}
+
+	m := goapns.NewMessage()
+
+	//Filling Alert
+	m.Title("Title").Subtitle("Subtitle")
+	m.TitleLocKey("Tkey").TitleLocArgs(array)
+	m.Body("body")
+	m.LocKey("Lkey").LocArgs(array)
+	m.ActionLocKey("Akey").LaunchImage("imageName")
+
+	//Filling Payload
+	m.Badge(42).Sound("sound")
+	m.ContentAvailable()
+	m.MutableContent()
+
+	//Hard coded expected json, every field is set
+	expected := []byte(`{"aps":{"alert":{"title":"Title","subtitle":"Subtitle","title-loc-key":"Tkey","title-loc-args":["1","2"],"body":"body","loc-key":"Lkey","loc-args":["1","2"],"action-loc-key":"Akey","launch-image":"imageName"},"badge":42,"content-available":1,"mutable-content":1,"sound":"sound"}}`)
+	json, _ := m.MarshalJSON()
+
+	assert.Equal(t, expected, json)
 }
