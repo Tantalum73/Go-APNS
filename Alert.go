@@ -12,6 +12,9 @@ type Alert struct {
 	// This key was added in iOS 8.2.
 	Title string `json:"title,omitempty"`
 
+	//Subtitle is a short purpose of the notification.
+	Subtitle string `json:"subtitle,omitempty"`
+
 	// TitleLocKey is the key to a title string in the Localizable.strings file for the current localization.
 	// The key string can be formatted with %@ and %n$@ specifiers to take the variables specified in the title-loc-args array.
 	// See Localized Formatted Strings for more information.

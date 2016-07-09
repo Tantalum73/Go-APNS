@@ -42,6 +42,13 @@ func (m *Message) Title(title string) *Message {
 	return m
 }
 
+//Subtitle sets the subtitle of the alert in its underlaying Alert object.
+//It is a short purpose of the notification.
+func (m *Message) Subtitle(subtitle string) *Message {
+	m.Alert.Subtitle = subtitle
+	return m
+}
+
 //Body sets the text of the alert message in the underlaying Alert object.
 func (m *Message) Body(body string) *Message {
 	m.Alert.Body = body
@@ -67,7 +74,7 @@ func (m *Message) TitleLocArgs(args []string) *Message {
 	return m
 }
 
-//ActionLocKey: If a string is specified, the system displays an alert that includes the Close and View buttons.
+//ActionLocKey : If a string is specified, the system displays an alert that includes the Close and View buttons.
 //This method sets the value to its underlaying Alert object.
 //The string is used as a key to get a localized string in the current localization to use for the right button’s title instead of “View”.
 //See Localized Formatted Strings for more information.
@@ -245,6 +252,7 @@ func (m *Message) CollapseID(collapseID string) *Message {
 /******************************
 Custom parameter
 ******************************/
+
 //Custom lets you set a custom key and value. It will be appended to the Notification.
 //In your AppDelegate, you can extract those custom values.
 func (m *Message) Custom(key string, object interface{}) *Message {
@@ -256,6 +264,7 @@ func (m *Message) Custom(key string, object interface{}) *Message {
 /******************************
 JSON encoding
 ******************************/
+
 //MarshalJSON builds a []byte that stores the Message object in JSON.
 func (m *Message) MarshalJSON() ([]byte, error) {
 	payload := make(map[string]interface{}, 4)
