@@ -17,6 +17,14 @@ And then install Go-APNS using this line
 go get -u https://github.com/Tantalum73/Go-APNS
 ```
 
+## iOS 10 ready
+
+New keys have been added to provide richer notifications on Apples new iOS. Those are:
+
+- `Subtitle(string)` _a short string displayed below the notification that describes its purpose_
+- `CollapseID(string)` _can be used to replace a former sent notification_
+- 'MutableContent()' _a flag that specifies if the app is allowed to mutate the notification before it gets presented_
+
 ## Usage
 
 **First step**: Create a `Connection`.
@@ -95,6 +103,7 @@ message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 - `LocKey(string)`
 - `LocArgs([] string)`
 - `LaunchImage(string)`
+- `Subtitle(string)` _(new in iOS 10)_
 
 **This method will change the Payload**
 
@@ -104,6 +113,7 @@ message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 - `Category(string)`
 - `ContentAvailable()` _sets ContentAvailable to 1 and the priority to low, according to Apples documentation_
 - `ContentUnvailable()` _lets you reset the ContentAvailable flags you may have set earlier by accident_
+- 'MutableContent()' _a flag that specifies if the app is allowed to mutate the notification before it gets presented (new in iOS 10)_
 
 **This method will change the Header**
 
@@ -112,6 +122,7 @@ message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 - `PriorityHigh()` _Apple defines a value of 10 as high priority, if you do not specify the priority it will default to high_
 - `PriorityLow()` _Apple defines a value of 5 as low priority_
 - `Topic(string)` _typically the bundle ID for your app_
+- `CollapseID(string)` _can be used to replace a former sent notification (new in iOS 10)_
 
 ## Example
 
