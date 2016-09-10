@@ -113,7 +113,7 @@ message.Title("Title").Body("A Test notification :)").Sound("Default").Badge(42)
 - `Category(string)`
 - `ContentAvailable()` _sets ContentAvailable to 1 and the priority to low, according to Apples documentation_
 - `ContentUnvailable()` _lets you reset the ContentAvailable flags you may have set earlier by accident_
-- 'MutableContent()' _a flag that specifies if the app is allowed to mutate the notification before it gets presented (new in iOS 10)_
+- `MutableContent()` _a flag that specifies if the app is allowed to mutate the notification before it gets presented (new in iOS 10)_
 
 **This method will change the Header**
 
